@@ -22,33 +22,21 @@ Un navigateur web moderne
 Installation
 Clonez ce dépôt sur votre machine locale :
 
-bash
-Copy code
 git clone https://github.com/votre-utilisateur/vinventory.git
 Accédez au répertoire du projet :
 
-bash
-Copy code
 cd vinventory
 Installez les dépendances requises :
 
-bash
-Copy code
 pip install -r requirements.txt
 Appliquez les migrations Django :
 
-bash
-Copy code
 python manage.py migrate
 Créez un superutilisateur pour accéder à l'interface d'administration :
 
-bash
-Copy code
 python manage.py createsuperuser
 Lancez le serveur de développement :
 
-bash
-Copy code
 python manage.py runserver
 Accédez à l'application dans votre navigateur à l'adresse http://localhost:8000/.
 
