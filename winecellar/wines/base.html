@@ -1,0 +1,20 @@
+{% load static %}
+
+<html>
+    <head>
+        <title>Wines</title>
+        <link rel="stylesheet" href="{% static 'wines/styles.css' %}" />
+    </head>
+    <body>
+
+    <nav>
+        <a href="">Accueil</a>
+        <a href="">A Propos</a>
+        <a href="">Mentions légales</a>
+        <a href="">Nous Contacter</a>
+    </nav>
+
+        {% block content %}{% endblock %}
+
+    </body>
+</html>
