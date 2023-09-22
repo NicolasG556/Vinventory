@@ -1,0 +1,9 @@
+<h1> Bienvenue dans votre Cave ! </h1>
+
+<ul>
+   {% for vin in vins %}
+     <li><a href="{% url 'vin-details' vin.id %}">{{ vin.nom }}</a></li>
+   {% endfor %}
+</ul>
+
+

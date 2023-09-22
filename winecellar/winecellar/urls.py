@@ -21,4 +21,6 @@ from wines import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('hello/', views.hello, name='hello'),
+    path('vins/', views.vin_list, name='vin-list'),
+    path('vins/<int:id>/', views.vin_details, name='vin-details'),
 ]

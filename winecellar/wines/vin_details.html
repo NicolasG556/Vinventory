@@ -1,0 +1,14 @@
+{% extends 'wines/base.html' %}
+
+{% block content %}
+<h2>{{ vin.nom|upper }}</h2>
+
+<ul>
+    <li>Millesime : {{ vin.millesime }}</li>
+    <li>Couleur : {{ vin.couleur }}</li>
+    <li>Domaine : {{ vin.domaine }}</li>
+    <li>Region : {{ vin.id_region.nom }}</li>
+</ul>
+
+
+{% endblock %}
