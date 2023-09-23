@@ -1,0 +1,18 @@
+{% extends 'wines/base.html' %}
+
+{% block content %}
+
+<h1> Gestion des régions </h1>
+
+<ul>
+   {% for region in regions %}
+     <li><a href="{% url 'region-details' region.id %}">{{ region.nom }}</a>
+     <a href="{% url 'region-update' region.id %}">[modifier]</a></li>
+   {% endfor %}
+</ul>
+
+
+<button><a href="{% url 'region-create' %}">Ajouter une région</a></button>
+
+{% endblock %}
+

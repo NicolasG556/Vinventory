@@ -25,5 +25,17 @@ urlpatterns = [
     path('vins/<int:id>/', views.vin_details, name='vin-details'),
     path('vins/add/', views.vin_create, name='vin-create'),
     path('vins/<int:id>/update', views.vin_update, name='vin-update'),
-    path('vin/<int:id>/delete', views.vin_delete, name='vin-delete'),
+    path('vins/<int:id>/delete', views.vin_delete, name='vin-delete'),
+
+    path('regions/', views.region_list, name='region-list'),
+    path('regions/<int:id>/', views.region_details, name='region-details'),
+    path('regions/add/', views.region_create, name='region-create'),
+    path('regions/<int:id>/update', views.region_update, name='region-update'),
+    path('regions/<int:id>/delete', views.region_delete, name='region-delete'),
+
+    path('caves/', views.cave_list, name='cave-list'),
+    path('caves/<int:id>/', views.cave_details, name='cave-details'),
+    path('caves/add/', views.cave_create, name='cave-create'),
+    path('caves/<int:id>/update', views.cave_update, name='cave-update'),
+    path('caves/<int:id>/delete', views.cave_delete, name='cave-delete'),
 ]

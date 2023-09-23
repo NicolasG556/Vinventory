@@ -1,0 +1,15 @@
+{% extends 'wines/base.html' %}
+
+{% block content %}
+<h2>{{ region.nom|upper }}</h2>
+
+<ul>
+    <li>Description : {{ region.description }}</li>
+    <li>Image : {{ region.image }}</li>
+
+</ul>
+
+<a href="{% url 'region-update' region.id %}">Modifier cette région</a>
+<a href="{% url 'region-delete' region.id %}">Supprimer cette région</a>
+
+{% endblock %}
