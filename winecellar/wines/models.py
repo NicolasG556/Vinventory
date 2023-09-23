@@ -18,12 +18,17 @@ class RegionViticole(models.Model):
 
 
 class Vin(models.Model):
+    class Couleur(models.TextChoices):
+        ROUGE = 'ROUGE'
+        BLANC = 'BLANC'
+        ROSE = 'ROSÉ'
     nom = models.CharField(max_length=50)
     millesime = models.IntegerField()
-    couleur = models.CharField(max_length=20)
+    couleur = models.fields.CharField(choices=Couleur.choices, max_length=6)
     domaine = models.CharField(max_length=100)
     image = models.CharField(max_length=500)
     id_region = models.ForeignKey(RegionViticole, on_delete=models.CASCADE)
+    id_cave = models.ForeignKey(CaveVirtuelle, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nom

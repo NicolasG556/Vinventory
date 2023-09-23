@@ -23,4 +23,7 @@ urlpatterns = [
     path('hello/', views.hello, name='hello'),
     path('vins/', views.vin_list, name='vin-list'),
     path('vins/<int:id>/', views.vin_details, name='vin-details'),
+    path('vins/add/', views.vin_create, name='vin-create'),
+    path('vins/<int:id>/update', views.vin_update, name='vin-update'),
+    path('vin/<int:id>/delete', views.vin_delete, name='vin-delete'),
 ]

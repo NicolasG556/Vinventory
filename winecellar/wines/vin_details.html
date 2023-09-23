@@ -8,7 +8,11 @@
     <li>Couleur : {{ vin.couleur }}</li>
     <li>Domaine : {{ vin.domaine }}</li>
     <li>Region : {{ vin.id_region.nom }}</li>
+
+
 </ul>
 
+<a href="{% url 'vin-update' vin.id %}">Modifier ce vin</a>
+<a href="{% url 'vin-delete' vin.id %}">Supprimer ce vin</a>
 
 {% endblock %}

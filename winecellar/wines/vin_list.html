@@ -2,8 +2,13 @@
 
 <ul>
    {% for vin in vins %}
-     <li><a href="{% url 'vin-details' vin.id %}">{{ vin.nom }}</a></li>
+     <li><a href="{% url 'vin-details' vin.id %}">{{ vin.nom }}</a>
+     <a href="{% url 'vin-update' vin.id %}">[modifier]</a></li>
    {% endfor %}
 </ul>
+
+
+<button><a href="{% url 'vin-create' %}">Ajouter un vin</a></button>
+
 
 
