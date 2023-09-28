@@ -38,4 +38,10 @@ urlpatterns = [
     path('caves/add/', views.cave_create, name='cave-create'),
     path('caves/<int:id>/update', views.cave_update, name='cave-update'),
     path('caves/<int:id>/delete', views.cave_delete, name='cave-delete'),
+
+    path('cepages/', views.cepage_list, name='cepage-list'),
+    path('cepages/<int:id>/', views.cepage_details, name='cepage-details'),
+    path('cepages/add/', views.cepage_create, name='cepage-create'),
+    path('cepages/<int:id>/update', views.cepage_update, name='cepage-update'),
+    path('cepages/<int:id>/delete', views.cepage_delete, name='cepage-delete'),
 ]

@@ -1,0 +1,13 @@
+{% extends 'wines/base.html' %}
+
+{% block content %}
+<h2>{{ cepage.nom|upper }}</h2>
+
+<ul>
+    <li>Description : {{ cepage.description }}</li>
+</ul>
+
+<a href="{% url 'cepage-update' cepage.id %}">Modifier ce cepage</a>
+<a href="{% url 'cepage-delete' cepage.id %}">Supprimer ce cepage</a>
+
+{% endblock %}

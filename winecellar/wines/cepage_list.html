@@ -1,0 +1,18 @@
+{% extends 'wines/base.html' %}
+
+{% block content %}
+
+<h1> Gestion des cepages </h1>
+
+<ul>
+   {% for cepage in cepages %}
+     <li><a href="{% url 'cepage-details' cepage.id %}">{{ cepage.nom }}</a>
+     <a href="{% url 'cepage-update' cepage.id %}">[modifier]</a></li>
+   {% endfor %}
+</ul>
+
+
+<button><a href="{% url 'cepage-create' %}">Ajouter un cepage</a></button>
+
+{% endblock %}
+

@@ -1,8 +1,9 @@
+from django.db.models import Q
 from django.shortcuts import render, redirect
 
-from wines.models import Vin, RegionViticole, CaveVirtuelle
+from wines.models import Vin, RegionViticole, CaveVirtuelle, Cepage
 
-from wines.forms import VinForm, RegionForm, CaveForm
+from wines.forms import VinForm, RegionForm, CaveForm, CepageForm, VinSearchForm
 
 
 def hello(request):
@@ -148,9 +149,34 @@ def cave_list(request):
 def cave_details(request, id):
     cave = CaveVirtuelle.objects.get(id=id)
     vins = Vin.objects.filter(id_cave=id)
+
+    # On recupere les critères de recherche depuis le formulaire
+    form = VinSearchForm(request.GET)
+
+    if form.is_valid():
+        nom = form.cleaned_data.get('nom')
+        millesime = form.cleaned_data.get('millesime')
+        couleur = form.cleaned_data.get('couleur')
+
+        # Construisez un objet Q pour filtrer les vins en fonction des critères
+        filters = Q()
+
+        if nom:
+            filters &= Q(nom__icontains=nom)
+
+        if millesime:
+            filters &= Q(millesime=millesime)
+
+        if couleur:
+            filters &= Q(couleur=couleur)
+
+        vins = vins.filter(filters)
+
     return render(request,
                   'wines/cave_details.html',
-                  {'cave': cave, 'vins': vins})
+                  {'cave': cave,
+                   'vins': vins,
+                   'form': form})
 
 
 def cave_create(request):
@@ -201,3 +227,67 @@ def cave_delete(request, id):
     return render(request,
                   'wines/cave_delete.html',
                   {'cave': cave})
+
+
+def cepage_list(request):
+    cepages = Cepage.objects.all()
+    return render(request,
+                  'wines/cepage_list.html',
+                  {'cepages': cepages})
+
+
+def cepage_details(request, id):
+    cepage = Cepage.objects.get(id=id)
+    return render(request,
+                  'wines/cepage_details.html',
+                  {'cepage': cepage})
+
+
+def cepage_create(request):
+    if request.method == 'POST':
+        form = CepageForm(request.POST)
+        if form.is_valid():
+            # créer le cepage dans la base de données
+            cepage = form.save()
+            # rediriger vers la page détaillée du cepage que nous venons de créer
+            return redirect('cepage-details', cepage.id)
+
+    else:
+        form = CepageForm()
+
+    return render(request,
+                  'wines/cepage_create.html',
+                  {'form': form})
+
+
+def cepage_update(request, id):
+    cepage = Cepage.objects.get(id=id)
+
+    if request.method == 'POST':
+        form = CepageForm(request.POST, instance=cepage)
+        if form.is_valid():
+            # mettre à jour le cepage dans la base de données
+            cepage = form.save()
+            # rediriger vers la page détaillée du cepage que nous venons de mettre à jour
+            return redirect('cepage-details', cepage.id)
+
+    form = CepageForm(instance=cepage)  # on pré-rempli le formulaire avec un cepage existant
+    return render(request,
+                  'wines/cepage_update.html',
+                  {'form': form})
+
+
+def cepage_delete(request, id):
+    cepage = Cepage.objects.get(id=id)
+
+    if request.method == 'POST':
+        # supprimer le cepage de la base de données
+        cepage.delete()
+        # rediriger vers la liste des cepages
+        return redirect('cepage-list')
+
+        # pas besoin de « else » ici. Si c'est une demande GET, continuez simplement
+
+    return render(request,
+                  'wines/cepage_delete.html',
+                  {'cepage': cepage})
