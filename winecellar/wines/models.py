@@ -12,6 +12,8 @@ class RegionViticole(models.Model):
     nom = models.CharField(max_length=50)
     description = models.TextField()
     image = models.CharField(max_length=500)
+    longitude = models.FloatField(default=1.0)
+    latitude = models.FloatField(default=1.0)
 
     def __str__(self):
         return self.nom

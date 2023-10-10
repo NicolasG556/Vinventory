@@ -44,4 +44,6 @@ urlpatterns = [
     path('cepages/add/', views.cepage_create, name='cepage-create'),
     path('cepages/<int:id>/update', views.cepage_update, name='cepage-update'),
     path('cepages/<int:id>/delete', views.cepage_delete, name='cepage-delete'),
+
+    path('carte/', views.carte_france, name='carte-france'),
 ]

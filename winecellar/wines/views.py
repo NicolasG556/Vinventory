@@ -291,3 +291,19 @@ def cepage_delete(request, id):
     return render(request,
                   'wines/cepage_delete.html',
                   {'cepage': cepage})
+
+
+# Cartographie France
+
+def carte_france(request):
+    regions = RegionViticole.objects.all()
+    data = {}  # Créez un dictionnaire pour stocker les données que vous souhaitez passer au modèle HTML
+
+    for region in regions:
+        nb_vins_region = Vin.objects.filter(id_region=region.id).count()
+        data[region] = nb_vins_region  # Associez le nombre de vins à chaque région
+
+    return render(request,
+                  'wines/carte_france.html',
+                  {'regions': regions,
+                   'data': data})

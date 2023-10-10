@@ -1,0 +1,87 @@
+# carte_france.html
+
+<html>
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+
+<body>
+<div id="maCarte" style="height: 600px; width: 600px;"></div>
+
+<div id="infoCard" style="display: none;">
+    <h2 id="regionNom"></h2>
+    <p id="regionDescription"></p>
+    <p id="nbVins"></p>
+</div>
+
+
+<script>
+        var maCarte = L.map('maCarte').setView([46.603354, 1.888334], 6); // Coordonnées approximatives du centre de la France et zoom initial.
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(maCarte);
+
+        // Définir un objet vide 'data'
+            var data = {};
+
+        // Ajouter un marqueur à une position spécifique
+
+         {% for region, nb_vins in data.items %}
+
+            // Définir les coordonnées du centre du cercle et son rayon en mètres
+                var circleCenter = [{{ region.longitude }}, {{ region.latitude }}];
+                var circleRadius = {{ nb_vins }} * 10000; // Par exemple, un rayon de  kilomètres
+
+            // Créer le cercle avec des options de style
+            var circle = L.circle(circleCenter, {
+                color: '#900C3F',  // Couleur des bords
+                fillColor: '#900C3F', // Couleur de remplissage
+                fillOpacity: 0.5, // Opacité de remplissage
+                radius: circleRadius  // Rayon en mètres
+            }).addTo(maCarte);
+
+            var regionData = {
+            nom: '{{ region.nom|escapejs }}',
+            description: '{{ region.description|escapejs }}',
+            nb_vins: {{ nb_vins }}
+            };
+            data["{{ region.id }}"] = regionData;
+
+            // Conteneur de la carte HTML
+            var infoCard = document.getElementById('infoCard');
+            var regionNom = document.getElementById('regionNom');
+            var regionDescription = document.getElementById('regionDescription');
+            var nbVins = document.getElementById('nbVins');
+
+             // Gestionnaire de clic sur le cercle
+            circle.on('click', function(e) {
+                // Récupérez les données spécifiques à la région cliquée
+                var regionData = data[{{ region.id }}]; // Supposons que vous avez un dictionnaire 'data' avec les données des régions
+                var region = e.target;
+
+                console.log(regionData);
+
+                // Mettez à jour le contenu de la carte HTML avec les données dynamiques
+                regionNom.textContent = regionData.nom;
+                regionDescription.textContent = regionData.description;
+                nbVins.textContent = `Vous avez ${regionData.nb_vins} vin(s) de ${regionData.nom}`;
+
+                // Afficher la carte HTML lorsque le cercle est cliqué
+                infoCard.style.display = 'block';
+            });
+         {% endfor %}
+
+
+
+
+
+</script>
+</body>
+</html>
+
+
+
+
+
