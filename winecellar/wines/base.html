@@ -1,20 +1,27 @@
 {% load static %}
 
 <html>
-    <head>
-        <title>Wines</title>
-        <link rel="stylesheet" href="{% static 'wines/styles.css' %}" />
-    </head>
-    <body>
+<head>
+    <title>Wines</title>
+    <link rel="stylesheet" href="{% static 'wines/styles.css' %}"/>
+</head>
+<body>
 
-    <nav>
-        <a href="{% url 'hello' %}">Accueil</a>
-        <a href="">A Propos</a>
-        <a href="">Mentions légales</a>
-        <a href="">Nous Contacter</a>
-    </nav>
+<nav>
+    <a href="{% url 'hello' %}">Accueil</a>
+    <a href="">A Propos</a>
+    <a href="">Mentions légales</a>
+    <a href="">Nous Contacter</a>
+    {% if user.is_authenticated %}
+    <a href="{% url 'logout' %}">Se déconnecter</a>
+    {% endif %}
+</nav>
 
-        {% block content %}{% endblock %}
+{% if user.is_authenticated %}
+<p>Vous êtes connecté en tant que {{ request.user }}. </p>
+{% endif %}
 
-    </body>
+{% block content %}{% endblock %}
+
+</body>
 </html>
