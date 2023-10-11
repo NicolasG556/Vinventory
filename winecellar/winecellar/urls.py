@@ -16,34 +16,39 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from wines import views
+
+import authentication.views
+import wines.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('hello/', views.hello, name='hello'),
-    path('vins/', views.vin_list, name='vin-list'),
-    path('vins/<int:id>/', views.vin_details, name='vin-details'),
-    path('vins/add/', views.vin_create, name='vin-create'),
-    path('vins/<int:id>/update', views.vin_update, name='vin-update'),
-    path('vins/<int:id>/delete', views.vin_delete, name='vin-delete'),
+    path('', authentication.views.login_page, name='login'),
+    path('logout', authentication.views.logout_user, name='logout'),
 
-    path('regions/', views.region_list, name='region-list'),
-    path('regions/<int:id>/', views.region_details, name='region-details'),
-    path('regions/add/', views.region_create, name='region-create'),
-    path('regions/<int:id>/update', views.region_update, name='region-update'),
-    path('regions/<int:id>/delete', views.region_delete, name='region-delete'),
+    path('hello/', wines.views.hello, name='hello'),
+    path('vins/', wines.views.vin_list, name='vin-list'),
+    path('vins/<int:id>/', wines.views.vin_details, name='vin-details'),
+    path('vins/add/', wines.views.vin_create, name='vin-create'),
+    path('vins/<int:id>/update', wines.views.vin_update, name='vin-update'),
+    path('vins/<int:id>/delete', wines.views.vin_delete, name='vin-delete'),
 
-    path('caves/', views.cave_list, name='cave-list'),
-    path('caves/<int:id>/', views.cave_details, name='cave-details'),
-    path('caves/add/', views.cave_create, name='cave-create'),
-    path('caves/<int:id>/update', views.cave_update, name='cave-update'),
-    path('caves/<int:id>/delete', views.cave_delete, name='cave-delete'),
+    path('regions/', wines.views.region_list, name='region-list'),
+    path('regions/<int:id>/', wines.views.region_details, name='region-details'),
+    path('regions/add/', wines.views.region_create, name='region-create'),
+    path('regions/<int:id>/update', wines.views.region_update, name='region-update'),
+    path('regions/<int:id>/delete', wines.views.region_delete, name='region-delete'),
 
-    path('cepages/', views.cepage_list, name='cepage-list'),
-    path('cepages/<int:id>/', views.cepage_details, name='cepage-details'),
-    path('cepages/add/', views.cepage_create, name='cepage-create'),
-    path('cepages/<int:id>/update', views.cepage_update, name='cepage-update'),
-    path('cepages/<int:id>/delete', views.cepage_delete, name='cepage-delete'),
+    path('caves/', wines.views.cave_list, name='cave-list'),
+    path('caves/<int:id>/', wines.views.cave_details, name='cave-details'),
+    path('caves/add/', wines.views.cave_create, name='cave-create'),
+    path('caves/<int:id>/update', wines.views.cave_update, name='cave-update'),
+    path('caves/<int:id>/delete', wines.views.cave_delete, name='cave-delete'),
 
-    path('carte/', views.carte_france, name='carte-france'),
+    path('cepages/', wines.views.cepage_list, name='cepage-list'),
+    path('cepages/<int:id>/', wines.views.cepage_details, name='cepage-details'),
+    path('cepages/add/', wines.views.cepage_create, name='cepage-create'),
+    path('cepages/<int:id>/update', wines.views.cepage_update, name='cepage-update'),
+    path('cepages/<int:id>/delete', wines.views.cepage_delete, name='cepage-delete'),
+
+    path('carte/', wines.views.carte_france, name='carte-france'),
 ]

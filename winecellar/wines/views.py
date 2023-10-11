@@ -1,16 +1,17 @@
 from django.db.models import Q
 from django.shortcuts import render, redirect
-
 from wines.models import Vin, RegionViticole, CaveVirtuelle, Cepage
-
 from wines.forms import VinForm, RegionForm, CaveForm, CepageForm, VinSearchForm
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def hello(request):
     return render(request,
                   'wines/hello.html')
 
 
+@login_required
 def vin_list(request):
     vins = Vin.objects.all()
     return render(request,
@@ -18,6 +19,7 @@ def vin_list(request):
                   {'vins': vins})
 
 
+@login_required
 def vin_details(request, id):
     vin = Vin.objects.get(id=id)
     return render(request,
@@ -25,6 +27,7 @@ def vin_details(request, id):
                   {'vin': vin})
 
 
+@login_required
 def vin_create(request):
     if request.method == 'POST':
         form = VinForm(request.POST)
@@ -42,6 +45,7 @@ def vin_create(request):
                   {'form': form})
 
 
+@login_required
 def vin_update(request, id):
     vin = Vin.objects.get(id=id)
 
@@ -59,6 +63,7 @@ def vin_update(request, id):
                   {'form': form})
 
 
+@login_required
 def vin_delete(request, id):
     vin = Vin.objects.get(id=id)
 
@@ -75,6 +80,7 @@ def vin_delete(request, id):
                   {'vin': vin})
 
 
+@login_required
 def region_list(request):
     regions = RegionViticole.objects.all()
     return render(request,
@@ -82,6 +88,7 @@ def region_list(request):
                   {'regions': regions})
 
 
+@login_required
 def region_details(request, id):
     region = RegionViticole.objects.get(id=id)
     return render(request,
@@ -89,6 +96,7 @@ def region_details(request, id):
                   {'region': region})
 
 
+@login_required
 def region_create(request):
     if request.method == 'POST':
         form = RegionForm(request.POST)
@@ -106,6 +114,7 @@ def region_create(request):
                   {'form': form})
 
 
+@login_required
 def region_update(request, id):
     region = RegionViticole.objects.get(id=id)
 
@@ -123,6 +132,7 @@ def region_update(request, id):
                   {'form': form})
 
 
+@login_required
 def region_delete(request, id):
     region = RegionViticole.objects.get(id=id)
 
@@ -139,6 +149,7 @@ def region_delete(request, id):
                   {'region': region})
 
 
+@login_required
 def cave_list(request):
     caves = CaveVirtuelle.objects.all()
     return render(request,
@@ -146,6 +157,7 @@ def cave_list(request):
                   {'caves': caves})
 
 
+@login_required
 def cave_details(request, id):
     cave = CaveVirtuelle.objects.get(id=id)
     vins = Vin.objects.filter(id_cave=id)
@@ -179,6 +191,7 @@ def cave_details(request, id):
                    'form': form})
 
 
+@login_required
 def cave_create(request):
     if request.method == 'POST':
         form = CaveForm(request.POST)
@@ -196,6 +209,7 @@ def cave_create(request):
                   {'form': form})
 
 
+@login_required
 def cave_update(request, id):
     cave = CaveVirtuelle.objects.get(id=id)
 
@@ -213,6 +227,7 @@ def cave_update(request, id):
                   {'form': form})
 
 
+@login_required
 def cave_delete(request, id):
     cave = CaveVirtuelle.objects.get(id=id)
 
@@ -229,6 +244,7 @@ def cave_delete(request, id):
                   {'cave': cave})
 
 
+@login_required
 def cepage_list(request):
     cepages = Cepage.objects.all()
     return render(request,
@@ -236,6 +252,7 @@ def cepage_list(request):
                   {'cepages': cepages})
 
 
+@login_required
 def cepage_details(request, id):
     cepage = Cepage.objects.get(id=id)
     return render(request,
@@ -243,6 +260,7 @@ def cepage_details(request, id):
                   {'cepage': cepage})
 
 
+@login_required
 def cepage_create(request):
     if request.method == 'POST':
         form = CepageForm(request.POST)
@@ -260,6 +278,7 @@ def cepage_create(request):
                   {'form': form})
 
 
+@login_required
 def cepage_update(request, id):
     cepage = Cepage.objects.get(id=id)
 
@@ -277,6 +296,7 @@ def cepage_update(request, id):
                   {'form': form})
 
 
+@login_required
 def cepage_delete(request, id):
     cepage = Cepage.objects.get(id=id)
 
@@ -295,6 +315,7 @@ def cepage_delete(request, id):
 
 # Cartographie France
 
+@login_required
 def carte_france(request):
     regions = RegionViticole.objects.all()
     data = {}  # Créez un dictionnaire pour stocker les données que vous souhaitez passer au modèle HTML

@@ -1,0 +1,21 @@
+<html>
+<head>
+    <title>Authentication</title>
+</head>
+<body>
+
+<nav>
+    <a href="{% url 'hello' %}">Accueil</a>
+    <a href="">A Propos</a>
+    <a href="">Mentions légales</a>
+    <a href="">Nous Contacter</a>
+</nav>
+
+{% block content %}{% endblock %}
+
+{% if user.is_authenticated %}
+<p>Vous êtes connecté en tant que {{ request.user }}. <a href="{% url 'logout' %}">Se déconnecter</a></p>
+{% endif %}
+
+</body>
+</html>
