@@ -1,8 +1,10 @@
 from django.db import models
+from django.conf import settings
 
 
 class CaveVirtuelle(models.Model):
     nom = models.CharField(max_length=50)
+    id_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nom
@@ -24,6 +26,7 @@ class Vin(models.Model):
         ROUGE = 'ROUGE'
         BLANC = 'BLANC'
         ROSE = 'ROSÉ'
+
     nom = models.CharField(max_length=50)
     millesime = models.IntegerField()
     couleur = models.fields.CharField(choices=Couleur.choices, max_length=6)

@@ -18,8 +18,9 @@
     {% endfor %}
 </ul>
 
+<p><a href="{% url 'carte-france' cave.id %}">Carte des vins</a></p>
 
-<button><a href="{% url 'vin-create' %}">Ajouter un vin</a></button>
+<button><a href="{% url 'vin-create' cave.id %}">Ajouter un vin</a></button>
 <button><a href="{% url 'cave-delete' cave.id %}">Supprimer cette cave</a></button>
 
 {% endblock %}

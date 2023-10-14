@@ -31,10 +31,12 @@ urlpatterns = [
         next_page='login'
     ), name='logout'),
 
+    path('signup/', authentication.views.signup_page, name='signup'),
+
     path('hello/', wines.views.hello, name='hello'),
     path('vins/', wines.views.vin_list, name='vin-list'),
     path('vins/<int:id>/', wines.views.vin_details, name='vin-details'),
-    path('vins/add/', wines.views.vin_create, name='vin-create'),
+    path('cave/<int:id_cave>/vins/add/', wines.views.vin_create, name='vin-create'),
     path('vins/<int:id>/update', wines.views.vin_update, name='vin-update'),
     path('vins/<int:id>/delete', wines.views.vin_delete, name='vin-delete'),
 
@@ -56,5 +58,5 @@ urlpatterns = [
     path('cepages/<int:id>/update', wines.views.cepage_update, name='cepage-update'),
     path('cepages/<int:id>/delete', wines.views.cepage_delete, name='cepage-delete'),
 
-    path('carte/', wines.views.carte_france, name='carte-france'),
+    path('cave/<int:id_cave>/carte/', wines.views.carte_france, name='carte-france'),
 ]

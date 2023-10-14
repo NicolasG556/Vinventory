@@ -1,5 +1,6 @@
 from django.db.models import Q
 from django.shortcuts import render, redirect
+from authentication.models import User
 from wines.models import Vin, RegionViticole, CaveVirtuelle, Cepage
 from wines.forms import VinForm, RegionForm, CaveForm, CepageForm, VinSearchForm
 from django.contrib.auth.decorators import login_required
@@ -28,11 +29,16 @@ def vin_details(request, id):
 
 
 @login_required
-def vin_create(request):
+def vin_create(request, id_cave):
+    cave = CaveVirtuelle.objects.get(id=id_cave)
     if request.method == 'POST':
         form = VinForm(request.POST)
         if form.is_valid():
             # créer le vin dans la base de données
+            vin = form.save(commit=False)
+
+            vin.id_cave = cave
+
             vin = form.save()
             # rediriger vers la page détaillée du vin que nous venons de créer
             return redirect('vin-details', vin.id)
@@ -42,7 +48,8 @@ def vin_create(request):
 
     return render(request,
                   'wines/vin_create.html',
-                  {'form': form})
+                  {'form': form,
+                   'cave': cave})
 
 
 @login_required
@@ -196,8 +203,15 @@ def cave_create(request):
     if request.method == 'POST':
         form = CaveForm(request.POST)
         if form.is_valid():
+            # Create a CaveVirtuelle object but do not save it yet
+            cave = form.save(commit=False)
+
+            # Set the id_user field to the currently logged-in user
+            cave.id_user = request.user
+
             # créer la cave virtuelle dans la base de données
             cave = form.save()
+
             # rediriger vers la page détaillée de la cave virtuelle que nous venons de créer
             return redirect('cave-details', cave.id)
 
@@ -316,15 +330,17 @@ def cepage_delete(request, id):
 # Cartographie France
 
 @login_required
-def carte_france(request):
+def carte_france(request, id_cave):
+    cave = CaveVirtuelle.objects.get(id=id_cave)
     regions = RegionViticole.objects.all()
     data = {}  # Créez un dictionnaire pour stocker les données que vous souhaitez passer au modèle HTML
 
     for region in regions:
-        nb_vins_region = Vin.objects.filter(id_region=region.id).count()
+        nb_vins_region = Vin.objects.filter(id_cave=cave, id_region=region.id).count()
         data[region] = nb_vins_region  # Associez le nombre de vins à chaque région
 
     return render(request,
                   'wines/carte_france.html',
                   {'regions': regions,
-                   'data': data})
+                   'data': data,
+                   'cave': cave})

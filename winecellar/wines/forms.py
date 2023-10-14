@@ -5,7 +5,7 @@ from wines.models import Vin, RegionViticole, CaveVirtuelle, Cepage
 class VinForm(forms.ModelForm):
     class Meta:
         model = Vin
-        fields = '__all__'
+        exclude = ['id_cave']
 
 
 class VinSearchForm(forms.Form):
@@ -23,7 +23,7 @@ class RegionForm(forms.ModelForm):
 class CaveForm(forms.ModelForm):
     class Meta:
         model = CaveVirtuelle
-        fields = '__all__'
+        exclude = ['id_user']
 
 
 class CepageForm(forms.ModelForm):
