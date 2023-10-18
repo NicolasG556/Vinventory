@@ -1,8 +1,8 @@
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from authentication.models import User
-from wines.models import Vin, RegionViticole, CaveVirtuelle, Cepage
-from wines.forms import VinForm, RegionForm, CaveForm, CepageForm, VinSearchForm
+from wines.models import Vin, RegionViticole, CaveVirtuelle, Cepage, Evenement, Photo
+from wines.forms import VinForm, RegionForm, CaveForm, CepageForm, VinSearchForm, EvenementForm, PhotoForm
 from django.contrib.auth.decorators import login_required
 
 
@@ -10,6 +10,19 @@ from django.contrib.auth.decorators import login_required
 def hello(request):
     return render(request,
                   'wines/hello.html')
+
+
+@login_required
+def photo_upload(request):
+    form = PhotoForm()
+    if request.method == 'POST':
+        form = PhotoForm(request.POST, request.FILES)
+        if form.is_valid():
+            photo = form.save(commit=False)
+            # now we can save
+            photo.save()
+            return redirect('home')
+    return render(request, 'wines/photo_upload.html', context={'form': form})
 
 
 @login_required
@@ -327,6 +340,91 @@ def cepage_delete(request, id):
                   {'cepage': cepage})
 
 
+@login_required
+def evenement_list(request):
+    evenements = Evenement.objects.all()
+    return render(request,
+                  'wines/evenement_list.html',
+                  {'evenements': evenements})
+
+
+@login_required
+def evenement_details(request, id):
+    evenement = Evenement.objects.get(id=id)
+    return render(request,
+                  'wines/evenement_details.html',
+                  {'evenement': evenement})
+
+
+@login_required
+def evenement_create(request):
+    if request.method == 'POST':
+        evenement_form = EvenementForm(request.POST)
+        photo_form = PhotoForm(request.POST, request.FILES)
+        if any([evenement_form.is_valid(), photo_form.is_valid()]):
+            # créer l'evenement dans la base de données
+            photo = photo_form.save()
+            evenement = evenement_form.save(commit=False)
+            evenement.image = photo
+            evenement.save()
+            # rediriger vers la page détaillée de l'evenement que nous venons de créer
+            return redirect('evenement-details', evenement.id)
+
+    else:
+        evenement_form = EvenementForm()
+        photo_form = PhotoForm()
+
+    return render(request,
+                  'wines/evenement_create.html',
+                  {'evenement_form': evenement_form,
+                   'photo_form': photo_form})
+
+
+@login_required
+def evenement_update(request, id):
+    evenement = Evenement.objects.get(id=id)
+
+    if request.method == 'POST':
+        evenement_form = EvenementForm(request.POST, instance=evenement)
+        photo_form = PhotoForm(request.POST, request.FILES, instance=evenement.image)
+        if any([evenement_form.is_valid(), photo_form.is_valid()]):
+            # mettre à jour l'évenement dans la base de données
+            photo = photo_form.save()
+            evenement = evenement_form.save(commit=False)
+            evenement.image = photo
+            evenement.save()
+            # rediriger vers la page détaillée de l'évenement que nous venons de mettre à jour
+            return redirect('evenement-details', evenement.id)
+
+    evenement_form = EvenementForm(instance=evenement)  # on pré-rempli le formulaire avec un évenement existant
+    # Create a separate photo_form instance for the photo associated with the event
+    if evenement.image:
+        photo_form = PhotoForm(instance=evenement.image)
+    else:
+        photo_form = PhotoForm()
+    return render(request,
+                  'wines/evenement_update.html',
+                  {'evenement_form': evenement_form,
+                   'photo_form': photo_form})
+
+
+@login_required
+def evenement_delete(request, id):
+    evenement = Evenement.objects.get(id=id)
+
+    if request.method == 'POST':
+        # supprimer le evenement de la base de données
+        evenement.delete()
+        # rediriger vers la liste des evenements
+        return redirect('evenement-list')
+
+        # pas besoin de « else » ici. Si c'est une demande GET, continuez simplement
+
+    return render(request,
+                  'wines/evenement_delete.html',
+                  {'evenement': evenement})
+
+
 # Cartographie France
 
 @login_required
@@ -344,3 +442,8 @@ def carte_france(request, id_cave):
                   {'regions': regions,
                    'data': data,
                    'cave': cave})
+
+
+def admin_page(request):
+    return render(request,
+                  'wines/admin_page.html')

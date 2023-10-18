@@ -1,5 +1,10 @@
 from django import forms
-from wines.models import Vin, RegionViticole, CaveVirtuelle, Cepage
+from wines.models import Vin, RegionViticole, CaveVirtuelle, Cepage, Evenement, Photo
+from authentication.models import User
+
+
+class DateTimeInput(forms.DateTimeInput):
+    input_type = 'datetime-local'
 
 
 class VinForm(forms.ModelForm):
@@ -30,3 +35,24 @@ class CepageForm(forms.ModelForm):
     class Meta:
         model = Cepage
         fields = '__all__'
+
+
+class PhotoForm(forms.ModelForm):
+    class Meta:
+        model = Photo
+        fields = ['image', 'caption']
+
+
+class EvenementForm(forms.ModelForm):
+    participants = forms.ModelMultipleChoiceField(
+        queryset=User.objects.all(),  # Use your user model here
+        required=False,  # Optional field
+        widget=forms.CheckboxSelectMultiple,  # Customize the widget for multiple choice
+    )
+
+    class Meta:
+        model = Evenement
+        fields = ['nom', 'dateHeure', 'description', 'nbPlaces', 'participants']
+        widgets = {
+            'dateHeure': DateTimeInput(),
+        }

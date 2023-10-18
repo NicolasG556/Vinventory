@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 import authentication.views
 import wines.views
@@ -58,5 +60,18 @@ urlpatterns = [
     path('cepages/<int:id>/update', wines.views.cepage_update, name='cepage-update'),
     path('cepages/<int:id>/delete', wines.views.cepage_delete, name='cepage-delete'),
 
+    path('evenements/', wines.views.evenement_list, name='evenement-list'),
+    path('evenements/<int:id>/', wines.views.evenement_details, name='evenement-details'),
+    path('evenements/add/', wines.views.evenement_create, name='evenement-create'),
+    path('evenements/<int:id>/update', wines.views.evenement_update, name='evenement-update'),
+    path('evenements/<int:id>/delete', wines.views.evenement_delete, name='evenement-delete'),
+
+    path('admin_page/', wines.views.admin_page, name='admin-page'),
+
+    path('photo/upload/', wines.views.photo_upload, name='photo_upload'),
+
     path('cave/<int:id_cave>/carte/', wines.views.carte_france, name='carte-france'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

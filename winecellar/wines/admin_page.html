@@ -1,0 +1,12 @@
+{% extends 'wines/base.html' %}
+
+{% block content %}
+
+<h1> Admin Page </h1>
+
+<p><a href="{% url 'evenement-list' %}">Gestion des evenements</a></p>
+<p><a href="{% url 'region-list' %}">Gestion des régions viticoles</a></p>
+<p><a href="{% url 'cepage-list' %}">Gestion des cepages</a></p>
+
+{% endblock %}
+

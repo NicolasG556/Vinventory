@@ -1,0 +1,15 @@
+{% extends 'wines/base.html' %}
+
+{% block content %}
+<h2>{{ evenement.nom|upper }}</h2>
+
+<ul>
+    <li>Image : <img src="{{ evenement.image.image.url }}" alt="Image Event"></li>
+    <li>Date : {{ evenement.dateHeure }}</li>
+    <li>Description : {{ evenement.description }}</li>
+</ul>
+
+<a href="{% url 'evenement-update' evenement.id %}">Modifier cet evenement</a>
+<a href="{% url 'evenement-delete' evenement.id %}">Supprimer cet evenement</a>
+
+{% endblock %}

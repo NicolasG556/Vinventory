@@ -1,0 +1,18 @@
+{% extends 'wines/base.html' %}
+
+{% block content %}
+
+<h1> Gestion des evenements </h1>
+
+<ul>
+   {% for evenement in evenements %}
+     <li><a href="{% url 'evenement-details' evenement.id %}">{{ evenement.nom }}</a>
+     <a href="{% url 'evenement-update' evenement.id %}">[modifier]</a></li>
+   {% endfor %}
+</ul>
+
+
+<button><a href="{% url 'evenement-create' %}">Ajouter un evenement</a></button>
+
+{% endblock %}
+

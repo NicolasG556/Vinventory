@@ -12,6 +12,10 @@
     <a href="">A Propos</a>
     <a href="">Mentions légales</a>
     <a href="">Nous Contacter</a>
+    {% if user.is_authenticated and user.role == 'ADMIN' %}
+    <a href="{% url 'admin-page' %}">Admin</a>
+    {% endif %}
+
     {% if user.is_authenticated %}
     <a href="{% url 'logout' %}">Se déconnecter</a>
     {% endif %}
