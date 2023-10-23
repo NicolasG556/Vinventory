@@ -1,6 +1,5 @@
 from django.db.models import Q
 from django.shortcuts import render, redirect
-from authentication.models import User
 from wines.models import Vin, RegionViticole, CaveVirtuelle, Cepage, Evenement, Photo
 from wines.forms import VinForm, RegionForm, CaveForm, CepageForm, VinSearchForm, EvenementForm, PhotoForm
 from django.contrib.auth.decorators import login_required

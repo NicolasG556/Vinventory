@@ -78,7 +78,7 @@ class Evenement(models.Model):
     description = models.TextField(max_length=1000)
     image = models.ForeignKey(Photo, null=True, on_delete=models.SET_NULL, blank=True)
     nbPlaces = models.IntegerField()
-    participants = models.ManyToManyField(settings.AUTH_USER_MODEL, null=True)
+    participants = models.ManyToManyField(settings.AUTH_USER_MODEL)
 
     def __str__(self):
         return self.nom

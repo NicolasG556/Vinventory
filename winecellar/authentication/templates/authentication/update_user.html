@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+</head>
+<body>
+
+<h1>Mon Profil</h1>
+<ul>
+    <li>Photo : <img src="{{ user.profile_pic.image.url }}" alt="Profile picture"></li>
+    <li>Identifiant : {{ user.username }}</li>
+    <li>Nom : {{ user.last_name }}</li>
+    <li>Prénom : {{ user.first_name }}</li>
+    <li>Email : {{ user.email }}</li>
+
+</ul>
+
+<h1>Mise à jour du profil</h1>
+
+<form action="{% url 'update-user' user_id=user.id %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ user_form.as_p }}
+    {{ profile_picture_form.as_p }}
+    <input type="submit" value="Envoyer">
+</form>
+</body>
+</html>

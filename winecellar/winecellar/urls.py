@@ -34,6 +34,8 @@ urlpatterns = [
     ), name='logout'),
 
     path('signup/', authentication.views.signup_page, name='signup'),
+    path('update_user/<int:user_id>/', authentication.views.update_user, name='update-user'),
+    path('user_list/', authentication.views.user_list, name='user-list'),
 
     path('hello/', wines.views.hello, name='hello'),
     path('vins/', wines.views.vin_list, name='vin-list'),

@@ -9,6 +9,9 @@
 
 <nav>
     <a href="{% url 'hello' %}">Accueil</a>
+    {% if user.is_authenticated %}
+    <a href="{% url 'update-user' request.user.id %}">Mon Profil</a>
+    {% endif %}
     <a href="">A Propos</a>
     <a href="">Mentions légales</a>
     <a href="">Nous Contacter</a>

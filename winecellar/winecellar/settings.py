@@ -138,3 +138,5 @@ LOGIN_REDIRECT_URL = 'hello'
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = 'media/'
+
+

@@ -5,6 +5,9 @@ from wines.models import RegionViticole
 from wines.models import Vin
 from wines.models import Cepage
 from wines.models import Met
+from wines.models import Photo
+from wines.models import Evenement
+
 
 
 class VinAdmin(admin.ModelAdmin):
@@ -16,3 +19,5 @@ admin.site.register(RegionViticole)
 admin.site.register(Vin, VinAdmin)
 admin.site.register(Cepage)
 admin.site.register(Met)
+admin.site.register(Photo)
+admin.site.register(Evenement)
