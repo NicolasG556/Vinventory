@@ -362,7 +362,9 @@ def evenement_create(request):
         photo_form = PhotoForm(request.POST, request.FILES)
         if any([evenement_form.is_valid(), photo_form.is_valid()]):
             # créer l'evenement dans la base de données
-            photo = photo_form.save()
+            photo = photo_form.save(commit=False)
+            photo.unset_as_profile_pic()
+            photo.save()
             evenement = evenement_form.save(commit=False)
             evenement.image = photo
             evenement.save()
@@ -388,7 +390,9 @@ def evenement_update(request, id):
         photo_form = PhotoForm(request.POST, request.FILES, instance=evenement.image)
         if any([evenement_form.is_valid(), photo_form.is_valid()]):
             # mettre à jour l'évenement dans la base de données
-            photo = photo_form.save()
+            photo = photo_form.save(commit=False)
+            photo.unset_as_profile_pic()
+            photo.save()
             evenement = evenement_form.save(commit=False)
             evenement.image = photo
             evenement.save()

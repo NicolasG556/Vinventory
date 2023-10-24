@@ -59,17 +59,37 @@ class Met(models.Model):
 class Photo(models.Model):
     image = models.ImageField(verbose_name='image')
     caption = models.CharField(max_length=200, blank=True)
+    is_profilepic = models.BooleanField(default=False)
 
     IMAGE_MAX_SIZE = (200, 200)
+    PROFILE_PIC_MAX_SIZE = (100, 100)
 
     def resize_image(self):
         image = Image.open(self.image)
         image.thumbnail(self.IMAGE_MAX_SIZE)
         image.save(self.image.path)
 
+    def resize_image_profilepic(self):
+        image = Image.open(self.image)
+        image.thumbnail(self.PROFILE_PIC_MAX_SIZE)
+        image.save(self.image.path)
+
+    # Add a method to set this photo as a profile picture
+    def set_as_profile_pic(self):
+        self.is_profile_pic = True
+        self.save()
+
+    # Add a method to unset this photo as a profile picture
+    def unset_as_profile_pic(self):
+        self.is_profile_pic = False
+        self.save()
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        self.resize_image()
+        if self.is_profile_pic:  # Check if it's a profile picture
+            self.resize_image_profilepic()
+        else:
+            self.resize_image()
 
 
 class Evenement(models.Model):

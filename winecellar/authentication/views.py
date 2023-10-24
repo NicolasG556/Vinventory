@@ -27,14 +27,14 @@ def signup_page(request):
 @login_required
 def update_user(request, user_id):
     user = get_object_or_404(User, pk=user_id)
-    print(f"User ID from URL parameter: {user_id}")
-    print(f"User fetched from database: {user.username}")
 
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=user)
         profile_picture_form = PhotoForm(request.POST, request.FILES, instance=user.profile_pic)
         if any([user_form.is_valid(), profile_picture_form.is_valid()]):
-            profile_pic = profile_picture_form.save()
+            profile_pic = profile_picture_form.save(commit=False)
+            profile_pic.set_as_profile_pic()
+            profile_pic.save()
             user_profile = user_form.save(commit=False)
             user_profile.profile_pic = profile_pic
             user_profile.save()

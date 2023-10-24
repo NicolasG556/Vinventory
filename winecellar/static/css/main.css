@@ -1,0 +1,23 @@
+.navbar-nav a
+{
+    font-family: 'cursive', cursive, sans-serif;
+    text-decoration: none;
+    color: black;
+    font-size: 1.5em
+
+}
+
+.navbar-nav li
+{
+    padding: 0 1em 0 1em
+}
+
+
+footer {
+  background: #212529;
+}
+
+.login_container{
+    margin: 20em 30em 20em 30em;
+    padding: 0 7em 0 7em
+}
